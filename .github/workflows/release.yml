@@ -29,13 +29,13 @@ jobs:
       - name: Add target
         run: rustup target add ${{ matrix.target }}
 
-      - name: Build (hn-cli)
-        working-directory: hn-cli
+      - name: Build hn_cli
+        working-directory: hn_cli
         run: cargo build --release --target ${{ matrix.target }}
 
       - name: Upload binary
         uses: softprops/action-gh-release@v1
         with:
-          files: hn-cli/target/${{ matrix.target }}/release/*
+          files: hn_cli/target/${{ matrix.target }}/release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

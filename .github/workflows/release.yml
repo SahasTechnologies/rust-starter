@@ -29,6 +29,10 @@ jobs:
       - name: Add target
         run: rustup target add ${{ matrix.target }}
 
+      - name: Install musl tools (Linux)
+        if: matrix.target == 'x86_64-unknown-linux-musl'
+        run: sudo apt-get update && sudo apt-get install -y musl-tools
+
       - name: Build hn_cli
         working-directory: hn_cli
         run: cargo build --release --target ${{ matrix.target }}

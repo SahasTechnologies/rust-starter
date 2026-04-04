@@ -6,7 +6,7 @@ on:
       - "[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
-  build-and-upload:
+  build:
     name: Build for ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
 
@@ -29,13 +29,13 @@ jobs:
       - name: Add target
         run: rustup target add ${{ matrix.target }}
 
-      - name: Build
+      - name: Build (hn-cli)
+        working-directory: hn-cli
         run: cargo build --release --target ${{ matrix.target }}
 
       - name: Upload binary
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            target/${{ matrix.target }}/release/*
+          files: hn-cli/target/${{ matrix.target }}/release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
